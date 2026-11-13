@@ -1,0 +1,88 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "enterprise-llm-gateway"
+version = "1.0.0"
+description = "High-Concurrency LLM Routing Gateway with Semantic Caching, Token Budgeting, Multi-Provider Fallbacks, and Automated RAG Evals"
+readme = "README.md"
+authors = [
+    { name = "Manoj Elumalai", email = "manoj.elumalai@outlook.com" }
+]
+license = { text = "MIT" }
+requires-python = ">=3.11"
+keywords = ["llm", "gateway", "fastapi", "semantic-cache", "rate-limiting", "rag-evaluation"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Typing :: Typed",
+    "Framework :: FastAPI",
+]
+dependencies = [
+    "pydantic>=2.7.0",
+    "pydantic-settings>=2.2.0",
+    "fastapi>=0.111.0",
+    "uvicorn[standard]>=0.30.0",
+    "httpx>=0.27.0",
+    "numpy>=1.26.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.2.0",
+    "pytest-asyncio>=0.23.0",
+    "pytest-cov>=5.0.0",
+    "ruff>=0.4.0",
+    "mypy>=1.10.0",
+    "pre-commit>=3.7.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/manojelumalai/enterprise-llm-gateway"
+Repository = "https://github.com/manojelumalai/enterprise-llm-gateway"
+Issues = "https://github.com/manojelumalai/enterprise-llm-gateway/issues"
+Changelog = "https://github.com/manojelumalai/enterprise-llm-gateway/blob/main/CHANGELOG.md"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/llm_gateway"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "function"
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "UP", "B", "SIM", "RUF"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["llm_gateway"]
+
+[tool.mypy]
+python_version = "3.11"
+disallow_untyped_defs = true
+no_implicit_optional = true
+warn_unused_ignores = true
+warn_redundant_casts = true
+warn_return_any = true
+ignore_missing_imports = true
+files = ["src"]
+
+[tool.coverage.run]
+source = ["llm_gateway"]
+branch = true
+
+[tool.coverage.report]
+show_missing = true
+fail_under = 85
