@@ -1,4 +1,4 @@
-FROM python:3.11-slim AS builder
+FROM python:3.15-slim AS builder
 
 COPY --from=ghcr.io/astral-sh/uv:latest /uv /bin/uv
 
@@ -13,7 +13,7 @@ COPY src/ ./src/
 RUN uv sync --frozen --no-dev --no-editable
 
 
-FROM python:3.11-slim
+FROM python:3.15-slim
 
 ENV PYTHONUNBUFFERED=1 \
     PYTHONDONTWRITEBYTECODE=1 \
